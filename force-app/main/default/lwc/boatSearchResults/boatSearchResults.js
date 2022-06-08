@@ -29,6 +29,8 @@ export default class BoatSearchResults extends LightningElement {
     wiredBoats(result) {
         if (result.data) {
             this.boats = result.data;
+            this.isLoading = false;
+            this.notifyLoading(this.isLoading);
         } else if (result.error) {
             this.boats = undefined;
         }
@@ -37,7 +39,11 @@ export default class BoatSearchResults extends LightningElement {
     // public function that updates the existing boatTypeId property
     // uses notifyLoading
     @api
-    searchBoats(boatTypeId) { this.boatTypeId = boatTypeId; }
+    searchBoats(boatTypeId) {
+        this.boatTypeId = boatTypeId;
+        this.isLoading = true;
+        this.notifyLoading(this.isLoading);
+    }
 
     // this public function must refresh the boats asynchronously
     // uses notifyLoading
@@ -73,6 +79,10 @@ export default class BoatSearchResults extends LightningElement {
 
     // Check the current value of isLoading before dispatching the doneloading or loading custom event
     notifyLoading(isLoading) {
-
+        let eventName = 'doneloading';
+        if (isLoading) {
+            eventName = 'loading';
+        }
+        this.dispatchEvent(new CustomEvent(eventName));
     }
 }
