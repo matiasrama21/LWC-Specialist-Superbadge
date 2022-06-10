@@ -65,7 +65,6 @@ export default class BoatsNearMe extends LightningElement {
     // Creates the map markers
     createMapMarkers(boatData) {
         // const newMarkers = boatData.map(boat => {...});
-        // newMarkers.unshift({...});
         const newMarkers = boatData.map(boat => {
             return {
                 location: {
@@ -76,6 +75,7 @@ export default class BoatsNearMe extends LightningElement {
             };
         });
 
+        // newMarkers.unshift({...});
         newMarkers.unshift({
             location: {
                 Latitude: this.latitude,
