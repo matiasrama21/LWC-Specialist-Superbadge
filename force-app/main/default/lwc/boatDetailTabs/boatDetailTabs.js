@@ -1,5 +1,6 @@
 import { LightningElement, wire, api } from 'lwc';
-import { getRecord } from 'lightning/uiRecordApi';
+import { NavigationMixin } from 'lightning/navigation';
+import { getRecord, getFieldValue } from 'lightning/uiRecordApi';
 import { APPLICATION_SCOPE, MessageContext, subscribe } from 'lightning/messageService';
 import BOATMC from '@salesforce/messageChannel/BoatMessageChannel__c';
 
@@ -20,8 +21,11 @@ import BOAT_NAME_FIELD from '@salesforce/schema/Boat__c.Name';
 
 const BOAT_FIELDS = [BOAT_ID_FIELD, BOAT_NAME_FIELD];
 
-export default class BoatDetailTabs extends LightningElement {
+export default class BoatDetailTabs extends NavigationMixin(LightningElement) {
+    // Private
     boatId;
+
+    subscription = null;
 
     label = {
         labelDetails,
@@ -50,13 +54,15 @@ export default class BoatDetailTabs extends LightningElement {
 
     // Decide when to show or hide the icon
     // returns 'utility:anchor' or null
-    get detailsTabIconName() { }
+    get detailsTabIconName() {
+        return this.wiredRecord.data ? 'utility:anchor' : null;
+    }
 
     // Utilize getFieldValue to extract the boat name from the record wire
-    get boatName() { }
+    get boatName() {
+        return getFieldValue(this.wiredRecord.data, BOAT_NAME_FIELD);
+    }
 
-    // Private
-    subscription = null;
 
     // Subscribe to the message channel
     subscribeMC() {
@@ -80,7 +86,17 @@ export default class BoatDetailTabs extends LightningElement {
     }
 
     // Navigates to record page
-    navigateToRecordViewPage() { }
+    navigateToRecordViewPage() {
+        // View a custom object record.
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: this.boatId,
+                objectApiName: 'Boat__c', // objectApiName is optional
+                actionName: 'view'
+            }
+        });
+    }
 
     // Navigates back to the review list, and refreshes reviews component
     handleReviewCreated() { }

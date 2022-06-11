@@ -9,6 +9,37 @@
     </template>
     <template if:true={wiredRecord.data}>
         <!-- lightning card for the content when wiredRecord has data goes here  -->
+        <lightning-tabset variant="scoped">
+            <lightning-tab label={label.labelDetails}>
+                <lightning-card title={boatName} icon-name={detailsTabIconName}>
+                    <lightning-button 
+                        label={label.labelFullDetails} 
+                        onclick={navigateToRecordViewPage} 
+                        slot="actions"
+                    >
+                    </lightning-button>
+                    <lightning-record-view-form
+                        record-id={boatId}
+                        object-api-name="Boat__c"
+                        density="compact"
+                    >
+                        <div class="slds-box slds-theme_default">
+                            <lightning-output-field field-name="BoatType__c"></lightning-output-field>
+                            <lightning-output-field field-name="Length__c"></lightning-output-field>
+                            <lightning-output-field field-name="Price__c"></lightning-output-field>
+                            <lightning-output-field field-name="Description__c"></lightning-output-field>
+                        </div>
+                    </lightning-record-view-form>
+                </lightning-card>
+            </lightning-tab>
+            <lightning-tab label={label.labelReviews}>
+                <!-- Aca va el componente boatReview -->
+                <c-boat-reviews record-id={boatId}></c-boat-reviews>
+            </lightning-tab>
+            <lightning-tab label={label.labelAddReview}>
+                <!-- Aca va el componente boatAddReviewForm -->
+            </lightning-tab>
+        </lightning-tabset>
     </template>
 </template>
   
