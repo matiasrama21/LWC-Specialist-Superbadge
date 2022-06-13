@@ -1,4 +1,5 @@
 import { LightningElement, api, wire } from 'lwc';
+import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
 
 // imports
 export default class BoatReviews extends LightningElement {
@@ -25,19 +26,39 @@ export default class BoatReviews extends LightningElement {
 
     // Getter to determine if there are reviews to display
     get reviewsToShow() {
-        return this.boatReviews ? true : false;
+        return this.boatReviews ? (this.boatReviews.length > 0 ? true : false) : false;
     }
 
     // Public method to force a refresh of the reviews invoking getReviews
     @api
-    refresh() { }
+    refresh() {
+        this.getReviews();
+    }
 
     // Imperative Apex call to get reviews for given boat
     // returns immediately if boatId is empty or null
     // sets isLoading to true during the process and false when it’s completed
     // Gets all the boatReviews from the result, checking for errors.
-    getReviews() { }
+    getReviews() {
+        if (!this.boatId) 
+            return;
+        
+        this.isLoading = true;
+
+        getAllReviews({ boatId: this.boatId })
+            .then(result => {
+                console.log(result);
+                this.boatReviews = result;
+            })
+            .catch(error => {
+                this.error = error.body.message;
+            }).finally(() => {
+                this.isLoading = false;
+            });
+    }
 
     // Helper method to use NavigationMixin to navigate to a given record on click
-    navigateToRecord(event) { }
+    navigateToRecord(event) {
+        console.log('click');
+    }
 }
