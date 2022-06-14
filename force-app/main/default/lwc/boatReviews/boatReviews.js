@@ -1,8 +1,9 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api } from 'lwc';
+import { NavigationMixin } from 'lightning/navigation';
 import getAllReviews from '@salesforce/apex/BoatDataService.getAllReviews';
 
 // imports
-export default class BoatReviews extends LightningElement {
+export default class BoatReviews extends NavigationMixin(LightningElement) {
     // Private
     boatId;
     error;
@@ -40,25 +41,32 @@ export default class BoatReviews extends LightningElement {
     // sets isLoading to true during the process and false when it’s completed
     // Gets all the boatReviews from the result, checking for errors.
     getReviews() {
-        if (!this.boatId) 
+        if (!this.boatId)
             return;
-        
+
         this.isLoading = true;
 
         getAllReviews({ boatId: this.boatId })
             .then(result => {
-                console.log(result);
                 this.boatReviews = result;
             })
             .catch(error => {
                 this.error = error.body.message;
-            }).finally(() => {
+            })
+            .finally(() => {
                 this.isLoading = false;
             });
     }
 
     // Helper method to use NavigationMixin to navigate to a given record on click
     navigateToRecord(event) {
-        console.log('click');
+        console.log(event.target.dataset.recordId);
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: event.target.dataset.recordId,
+                actionName: 'view'
+            }
+        });
     }
 }

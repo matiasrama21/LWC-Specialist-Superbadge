@@ -24,7 +24,7 @@
                                     <!-- display the creator’s picture -->
                                     <lightning-avatar 
                                         variant="circle" 
-                                        size="small" 
+                                        size="medium" 
                                         src={boatReview.CreatedBy.SmallPhotoUrl}
                                     >
                                     </lightning-avatar>
@@ -33,17 +33,14 @@
                                     <div class="slds-grid slds-grid_align-spread slds-has-flexi-truncate">
                                         <p>
                                             <!-- display creator’s name -->
-                                            <lightning-formatted-url
+                                            <a 
                                                 data-record-id={boatReview.CreatedBy.Id}
-                                                tooltip="Navigate to user record page" 
-                                                label={boatReview.CreatedBy.Name} 
-                                                target="_blank"
+                                                title={boatReview.CreatedBy.Name}
                                                 onclick={navigateToRecord}
-                                            >
-                                            </lightning-formatted-url>
+                                            >{boatReview.CreatedBy.Name}</a>
                                             <span>
                                                 <!-- display creator’s company name -->
-                                                {boatReview.CreatedBy.CompanyName}
+                                                &nbsp;- {boatReview.CreatedBy.CompanyName}
                                             </span>
                                         </p>
                                     </div>
@@ -56,15 +53,13 @@
                             <div class="slds-text-longform">
                                 <p class="slds-text-title_caps">
                                     <!-- display Name -->
-                                    <lightning-formatted-rich-text
-                                        value={boatReview.Name}
-                                    ></lightning-formatted-rich-text>
+                                    {boatReview.Name}
                                 </p>
                                 <!-- display Comment__c -->
-                                {boatReview.Comment__c}
+                                <lightning-formatted-rich-text value={boatReview.Comment__c}></lightning-formatted-rich-text>
                             </div>
                             <!-- display five star rating on readonly mode -->
-                            <c-five-star-rating read-only="true" value={boatReview.Rating__c}></c-five-star-rating>
+                            <c-five-star-rating read-only value={boatReview.Rating__c}></c-five-star-rating>
                         </article>
                     </li>
                     <!-- end iteration -->

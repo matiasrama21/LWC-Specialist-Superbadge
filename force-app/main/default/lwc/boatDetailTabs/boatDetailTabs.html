@@ -2,15 +2,15 @@
     <template if:false={wiredRecord.data}>
         <!-- lightning card for the label when wiredRecord has no data goes here  -->
         <lightning-card>
-            <span class="slds-align_absolute-center">
-                {label.labelPleaseSelectABoat}
+            <span class="slds-align_absolute-center" style="height: no-boat-height">
+                <p>{label.labelPleaseSelectABoat}</p>
             </span>
         </lightning-card>
     </template>
     <template if:true={wiredRecord.data}>
         <!-- lightning card for the content when wiredRecord has data goes here  -->
         <lightning-tabset variant="scoped">
-            <lightning-tab label={label.labelDetails}>
+            <lightning-tab label={label.labelDetails} value="1">
                 <lightning-card title={boatName} icon-name={detailsTabIconName}>
                     <lightning-button 
                         label={label.labelFullDetails} 
@@ -32,13 +32,13 @@
                     </lightning-record-view-form>
                 </lightning-card>
             </lightning-tab>
-            <lightning-tab label={label.labelReviews}>
+            <lightning-tab label={label.labelReviews} value="2">
                 <!-- Aca va el componente boatReview -->
                 <c-boat-reviews record-id={boatId}></c-boat-reviews>
             </lightning-tab>
-            <lightning-tab label={label.labelAddReview}>
+            <lightning-tab label={label.labelAddReview} value="3">
                 <!-- Aca va el componente boatAddReviewForm -->
-                <c-boat-add-review-form record-id={boatId}></c-boat-add-review-form>
+                <c-boat-add-review-form record-id={boatId} oncreatereview={handleReviewCreated}></c-boat-add-review-form>
             </lightning-tab>
         </lightning-tabset>
     </template>
