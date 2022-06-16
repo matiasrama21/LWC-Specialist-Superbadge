@@ -26,11 +26,12 @@
         <name>AuraDefinitionBundle</name>
     </types>
     <types>
-        <members>*</members>
+        <members>boatMap</members>
+        <members>fiveStarRating</members>
         <name>LightningComponentBundle</name>
     </types>
     <types>
-        <members>*</members>
+        <members>fivestar</members>
         <name>StaticResource</name>
     </types>
     <version>54.0</version>

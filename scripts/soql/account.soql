@@ -4,19 +4,4 @@
 //     SFDX: Execute SOQL Query with Currently Selected Text
 
 
-SELECT
-Id,
-Name,
-Comment__c,
-Rating__c,
-LastModifiedDate,
-CreatedDate,
-CreatedBy.Name,
-CreatedBy.SmallPhotoUrl,
-CreatedBy.CompanyName
-FROM
-BoatReview__c
-WHERE
-Boat__c = 'a025c00000ku0ZtAAI'
-ORDER BY
-CreatedDate DESC
+SELECT COUNT() FROM BoatReview__c
